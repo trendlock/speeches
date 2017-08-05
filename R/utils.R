@@ -42,3 +42,16 @@ prev_page_url <- function(h) {
     html_attr("href") %>%
     head(1)
 }
+
+#' @export
+has_month <- function(x) {
+  try1 <- str_detect(x, month.name %>% toupper()) %>% any()
+  if(!try1) {
+    str_detect(x, month.name) %>% any()
+  } else {
+    try1
+  }
+}
+
+
+x <- "1 July 2011"
