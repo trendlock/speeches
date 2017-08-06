@@ -20,7 +20,7 @@ sentences_MT <- function(path = "/TrendLock/data/speeches/sentences_MT.csv") {
 #' @param path Defaults to storage
 #' @return Returns data frame
 #' @export
-word_MT <- function(path = "/TrendLock/data/speeches/words_MT.csv") {
+word_MT <- function(path = "/TrendLock/data/speeches/word_MT.csv") {
   readr::read_csv(find::this(path))
 }
 

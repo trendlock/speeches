@@ -4,7 +4,7 @@
 \alias{word_MT}
 \title{Get data for MT speeches as words}
 \usage{
-word_MT(path = "/TrendLock/data/speeches/words_MT.csv")
+word_MT(path = "/TrendLock/data/speeches/word_MT.csv")
 }
 \arguments{
 \item{path}{Defaults to storage}
