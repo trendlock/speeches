@@ -62,10 +62,19 @@ word_BS <- function(path = "/TrendLock/data/speeches/word_BS.csv") {
 
 get_and_combine <- function() {
   df_MT <- word_MT()
+
+  df_MT <- df_MT
+
     # select(-media.title)
 
   df_BS <- word_BS() %>%
     clean_text()
 
-  write_csv(bind_rows(df_MT, df_BS), find::this("/TrendLock/data/speeches/words_comb.csv"))
+  df <- bind_rows(df_MT, df_BS) %>%
+    mutate(speaker. = case_when(
+      speaker. == "pm" ~ "Turnbull",
+      speaker. == "bill" ~ "Shorten",
+      speaker. == "jorn" ~ "Journalist"
+    ))
+  write_csv(df, find::this("/TrendLock/data/speeches/words_comb.csv"))
 }
