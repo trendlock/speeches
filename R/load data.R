@@ -24,6 +24,19 @@ word_MT <- function(path = "/TrendLock/data/speeches/word_MT.csv") {
   readr::read_csv(find::this(path))
 }
 
+#' Get data for BS speeches as sentences
+#'
+#' "Labor must work harder to attract and retain members." - BS
+#'
+#' @name sentences_BS
+#' @param path Defaults to storage
+#' @return Returns data frame
+#' @export
+
+sentences_BS <- function(path = "/TrendLock/data/speeches/sentences_BS.csv") {
+  message("missing dates... :(")
+  readr::read_csv(find::this(path))
+}
 
 #' Get data for BS speeches as words
 #'
@@ -54,6 +67,5 @@ get_and_combine <- function() {
   df_BS <- word_BS() %>%
     clean_text()
 
-  bind_rows(df_MT, df_BS)
-
+  write_csv(bind_rows(df_MT, df_BS), find::this("/TrendLock/data/speeches/words_comb.csv"))
 }

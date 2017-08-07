@@ -19,6 +19,6 @@ sent_to_words <- function(df, keep_jorn = F) {
     df
   } else {
     df %>%
-      filter(speaker. == "pm")
+      filter(speaker. != "")
   }
 }

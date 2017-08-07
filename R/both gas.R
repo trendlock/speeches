@@ -11,9 +11,8 @@ both_gas_talk <- function(df, key_words = c("gas",  "coal", "renewable")) {
     group_by(week., word, speaker.) %>%
     summarise(times.said = n())
 
-  p <- ggplot(gas., aes(x = week., y = times.said, col = word)) +
+  ggplot(gas., aes(x = week., y = times.said, col = word)) +
     geom_line(size = 1, alpha = 0.5) +
     facet_grid(speaker.~.)
-
 
 }

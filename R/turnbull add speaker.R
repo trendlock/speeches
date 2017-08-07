@@ -14,8 +14,8 @@ add_speaker <- function(df, keep = T) {
   df <- df %>%
     mutate(
       sent = str_trim(sent),
-      speaker. = case_when(sent == "JOURNALIST:" ~ "jorn",
-                           sent == "PRIME MINISTER:" ~ "pm"))
+      speaker. = case_when(sent == "JOURNALIST:" ~ "Journalist",
+                           sent == "PRIME MINISTER:" ~ "Malcolm Turnbull"))
 
   df <- df %>%
     fill(speaker.) %>% # annying but this line not working unless split from the call above??
