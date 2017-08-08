@@ -4,7 +4,7 @@
 \alias{get_and_combine}
 \title{Get and combine data for MT and BS (gas fun)}
 \usage{
-get_and_combine()
+get_and_combine(path = "/Dropbox/TrendLock/data/speeches/words_comb.csv")
 }
 \value{
 Returns data frame

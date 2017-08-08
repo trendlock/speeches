@@ -4,7 +4,7 @@
 \alias{sentences_MT}
 \title{Get data for MT speeches as sentences}
 \usage{
-sentences_MT(path = "/TrendLock/data/speeches/sentences_MT.csv")
+sentences_MT(path = "/Dropbox/TrendLock/data/speeches/sentences_MT.csv")
 }
 \arguments{
 \item{path}{Defaults to storage}
