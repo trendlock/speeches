@@ -3,7 +3,7 @@ Title: Tidytext analysis of Malcom Turnbull's and Bill Shorten's speeches
 Version: 0.0.1
 Authors@R: person("Ross", "Ireland", email = "rosseireland@gmail.com", role = c("aut", "cre"))
 Description: Tidytext analysis of Malcom Turnbull's and Bill Shorten's speeches
-Depends: tidyverse (>= 1.1.1), stringr, rvest, lubridate, tidytext, glue, find
+Depends: tidyverse (>= 1.1.1), stringr, rvest, lubridate, tidytext, glue, find, readr
 Remotes: trendlock/find
 License: MIT
 Encoding: UTF-8

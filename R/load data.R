@@ -76,12 +76,28 @@ word_comb <- function(path = "/Dropbox/TrendLock/data/speeches/words_comb.csv") 
 get_and_combine <- function(path = "/Dropbox/TrendLock/data/speeches/words_comb.csv") {
     df_MT <- word_MT()
     df <- word_BS() %>%
-    clean_text() %>%
-    bind_rows(df_MT) %>%
-    mutate(week. = floor_date(media.date, "week")) %>%
-    further_cleaning()
+      clean_text() %>%
+      bind_rows(df_MT) %>%
+      mutate(week. = floor_date(media.date, "week")) %>%
+      further_cleaning()
 
-  write_csv(df, find::this(path))
+
+
+    df2 <- df %>%
+      group_by(media.date, word, speaker.) %>%
+      mutate(counter= 1) %>%
+      mutate(word.count = sum(counter)) %>%
+      distinct(media.date, word, speaker., .keep_all = T)
+
+    df2 <- df2 %>%
+      select(-counter, -week.)
+
+    df2 <- df2 %>%
+      filter(word.count != 1)
+
+    cords_df <-
+
+  write_csv(df2, find::this(path))
 
 }
 
@@ -90,13 +106,27 @@ get_and_combine <- function(path = "/Dropbox/TrendLock/data/speeches/words_comb.
 build_app_data <- function() {
   get_and_combine("/dev/apps/showcase/data/words_comb.csv")
 
-  top_ls <- build_top_words(read_csv("/Users/rosseji/dev/apps/showcase/data/words_comb.csv"))
+  all_words_df <- read_csv("/Users/rosseji/dev/apps/showcase/data/words_comb.csv")
+
+  top_ls <- build_top_words(all_words_df)
 
   top_df <- top_ls %>%
     map2(names(top_ls), ~ mutate(.x, id.name = .y)) %>%
     bind_rows() %>%
-    mutate(labels = paste(name, value, sep = " ")) %>%
+    mutate(labels = paste(name, value, sep = " "))
+
+  top_df %>%
     write_csv("/Users/rosseji/dev/apps/showcase/data/top_words.csv")
+
+  all_words_df %>%
+    filter(!word %in% top_df$value) %>%
+    group_by(word) %>%
+    summarise(times.said = n()) %>%
+    arrange(desc(times.said)) %>%
+    head(2000) %>%
+    select(word) %>%
+    write_csv("/Users/rosseji/dev/apps/showcase/data/other_words.csv")
+
 }
 
 #' @export
