@@ -67,20 +67,35 @@ df_loc_topx2 <- df_loc_topx %>%
 df_loc_top <- df_loc_top[df_loc_topx2]
 
 
+df_loc_top$`abc am.Shorten`$media.date %>% as.character()
+
+simpleCap <- function(x) {
+  s <- strsplit(x, " ")[[1]]
+  paste(toupper(substring(s, 1, 1)), substring(s, 2),
+        sep = "", collapse = " ")
+}
+
+g_paste <- function(...) {
+  x <- c(...) %>% str_c(collapse = "+") %>%
+    str_replace_all(" ", "\\+")
+  glue("https://www.google.com.au/search?q={x}")
+}
 
 
 df_loc_top_spread <- df_loc_top %>%
   map( ~ .x %>%
-         select(speaker., lon, lat, media.loc, word)) %>%
+         select(speaker., lon, lat, media.loc, media.date, word)) %>%
   map( ~ tibble(Speaker = first(.x$speaker.),
                 lon = first(.x$lon),
                 lat = first(.x$lat),
-                Location = first(.x$media.loc),
-                top_words = str_c(.x$word, collapse = ", ")))
+                Location = first(.x$media.loc)  %>% toupper(),
+                Date = c(unique(.x$media.date) %>% as.character()) %>% str_c(collapse = ", "),
+                top_words = str_c(.x$word, collapse = ", ") %>% simpleCap(),
+                Search = glue("<a href='{g_paste(first(.x$speaker.), first(.x$media.loc), unique(.x$media.date) %>% as.character())}' target='_blank'>Search for speech</a>")))
 
 df_to_map <- df_loc_top_spread %>%
   bind_rows()
-
+df_to_map$Search[1]
 write_csv(df_to_map, "/Users/rosseji/dev/apps/showcase/data/words_loc.csv")
 
 library(leaflet)
@@ -89,4 +104,6 @@ library(htmltools)
 leaflet(df_to_map) %>% addTiles() %>%
   addMarkers(~lon, ~lat, popup = ~paste("Speaker", Speaker, "<br>",
                                         "Location:", Location, "<br>",
-                                        "Top words:", top_words))
+                                        "Date:", Date, "<br>",
+                                        "Top words:", top_words, "<br>",
+                                        Search))

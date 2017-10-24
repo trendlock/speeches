@@ -16,6 +16,10 @@ df_MT <- df_MT %>%
 df_MT <- df_MT %>%
   select(media.date,media.loc, sent)
 
+df_MT2 <- df_MT
+
+test4 <- unnest_tokens(df_MT, output, sent, "sentences")
+
 # be cool to make a list of funs and args... one day
 #unnest_tokens_ls <- list(fun = unnest_tokens, args = NULL)
 
@@ -34,14 +38,21 @@ test <- test1 %>%
 saveRDS(test, "/Users/rosseji/Documents/temp data/speech wrangling/phrase_df.rda")
 test <- read_rds( "/Users/rosseji/Documents/temp data/speech wrangling/phrase_df.rda")
 
+unique(test$media.loc)
 
-test_sum <- test %>%
-  group_by(media.date, output) %>% # will need to add speaker grp
+test2 <- test %>%
+  filter(media.loc %in% c("US Stock Exchange", "Randwick"))
+
+
+
+test_sum <- test2 %>%
+  group_by(media.date, media.loc, output) %>% # will need to add speaker grp
   summarise(times.said = n()) %>%
   filter(times.said > 2)
 
 
 saveRDS(test_sum, "/Users/rosseji/Documents/temp data/speech wrangling/phrase_count_df.rda")
+test_sum <- readRDS("/Users/rosseji/Documents/temp data/speech wrangling/phrase_count_df.rda")
 
 
 # looking at coal....

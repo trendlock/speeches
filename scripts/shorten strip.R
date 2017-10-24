@@ -6,12 +6,12 @@
 html.files <- list.files("/Users/rosseji/Dropbox/TrendLock/data/speeches/shorten html/", full.names = T)
 
 
-html.files2 <- html.files[1130:1150]
+html.files2 <- sample(html.files, 10, replace = F)
 
 
 
 df <- html.files2 %>%
-  map( ~ shorten_scrape(.x)) %>%
+  map( ~ shorten_strip_internals(.x)) %>%
   bind_rows()
 
 

@@ -1,10 +1,13 @@
 #' @export
 find_key_words <- function(df, text_var) {
   text_var <- enquo(text_var)
-
+  new_var_name <- paste0(quo_name(text_var))
   message("wrangling text")
+
+
+
   df_results <- df %>%
-    pull(output) %>%
+    pull(!!text_var) %>%
     map( ~ list(
       output = .x,
       tokens = .x %>% str_split(" ") %>% unlist()
@@ -20,10 +23,11 @@ find_key_words <- function(df, text_var) {
       key.words = .x$tokens[.x$key_test],
       trimmed = str_c(.x$tokens[.x$key_test], collapse = " ")
     )) %>%
-    bind_rows()
+    bind_rows() %>%
+    rename(!!new_var_name := output)
 
   message("compiling results")
-  inner_join(df, df_results, by = "output")
+  inner_join(df, df_results, by = new_var_name)
 }
 
 
